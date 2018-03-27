@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <script src="../../js/vue.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <div v-for="book in filterBooks">{{book.name}}</div>
+    </div>
+</body>
+</html>
+<script>
+    var app1=new Vue({
+        el:"#app1",
+        data:{
+            books:[
+                {
+                    name:"<<vue.js实战>>",
+                    author:"ch"
+                },
+                {
+                    name:"JavaScript高级程序设计",
+                    author:"zekas"
+                },
+                {
+                    name:"JavaScript语言精粹",
+                    author:"hello"
+                }
+            ]
+        },
+        computed:{
+            filterBooks:function () {
+                return this.books.filter(function (value) {
+                    return value.name.match(/JavaScript/)
+                })
+            }
+        }
+    });
+    console.log(app1.filterBooks)
+</script>

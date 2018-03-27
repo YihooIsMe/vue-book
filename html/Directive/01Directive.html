@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <script src="../../js/vue.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app1" v-cloak>
+    {{msg}}
+</div>
+<div id="app2">
+    <span>{{message}}</span>
+    <br>
+    <span v-once>{{message}}</span>
+
+    <div v-once>
+        <span>{{message}}</span>
+    </div>
+</div>
+<div id="app3">
+    <p v-if="status===1">当status为1时显示该行</p>
+    <p v-else-if="status===2">当status为2时显示该行</p>
+    <p v-else>否则显示该行</p>
+</div>
+<div id="app4">
+    <template v-if="status===1">
+        <p>I am one row</p>
+        <p>I am second row</p>
+        <p>I am third row</p>
+    </template>
+</div>
+<div id="app5">
+    <template v-if="type==='name'">
+        <label for="input">用户名：</label>
+        <input type="text" placeholder="请输入用户名" id="input" key="name-input">
+    </template>
+    <template v-else>
+        <label for="email">邮箱：</label>
+        <input type="text" placeholder="请输入邮箱" id="email" key="email-input">
+    </template>
+    <button @click="handleToggleClick">切换输入类型</button>
+</div>
+<div id="app6">
+    <div v-for="value in values">{{value}}</div>
+</div>
+</body>
+</html>
+<script>
+    var app1=new Vue({
+        el:"#app1",
+        data:{
+            msg:"这是一段文本"
+        }
+    });
+
+    var app2=new Vue({
+        el:"#app2",
+        data:{
+            message:"我是属于app2的"
+        }
+    });
+    app2.message="hello world!";
+
+    var app3=new Vue({
+        el:"#app3",
+        data:{
+            status:1
+        }
+    });
+
+    var app4=new Vue({
+        el:"#app4",
+        data:{
+            status:1
+        }
+    });
+
+    var app5=new Vue({
+        el:"#app5",
+        data:{
+            type:"name"
+        },
+        methods:{
+            handleToggleClick:function () {
+                this.type=this.type==="name"?"email":"name";
+            }
+        }
+    });
+
+    var app6=new Vue({
+        el:"#app6",
+        data:{
+            values:{
+                name:"易虎",
+                age:27,
+                job:"web前端工程师"
+            }
+        }
+    })
+</script>
