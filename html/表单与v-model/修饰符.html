@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 修饰符</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app1">
+    <input type="text" v-model.lazy="message">
+    <p>{{message}}</p>
+</div>
+</body>
+</html>
+<script>
+    var app1=new Vue({
+        el:"#app1",
+        data:{
+            message:""
+        }
+    })
+</script>

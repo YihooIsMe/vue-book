@@ -46,6 +46,9 @@ var app=new Vue({
                 })
             }
 
+        },
+        changSelect:function (index) {
+
         }
     },
     watch:{
@@ -56,12 +59,11 @@ var app=new Vue({
                 if(this.forChecks.length===this.list.length){
                     this.checkModel=true;
                 }else {
+                    var otherList=this.list.concat();
                     this.checkModel=false;
+                    this.list.splice(0,1);
                 }
 
-                for(var i=0;i<val.length;i++){
-
-                }
             },
             deep:true
         }

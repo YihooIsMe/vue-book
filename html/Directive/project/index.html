@@ -11,7 +11,7 @@
         <table>
             <thead>
             <tr>
-                <th><input type="checkbox" id="allSelect" v-model="checkModel" @click="checkAll"><label for="allSelect">是否全选</label></th>
+                <th><input type="checkbox" id="allSelect" v-model="checkModel" @click="checkAll"><label for="allSelect">是否全选{{checkModel}}</label></th>
                 <th></th>
                 <th>商品列表</th>
                 <th>商品单价</th>
@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index) in list">
-                    <td><input type="checkbox" v-model="forChecks" :value="item.id"></td>
+                    <td><input type="checkbox" v-model="forChecks" :value="item.id" @click="changSelect(index)">{{forChecks}}</td>
                     <td>{{index+1}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.price}}</td>
@@ -44,3 +44,4 @@
 <script src="index.js"></script>
 </body>
 </html>
+<!--TODO:选中商品结账，未选中商品不结账demo还没有出来-->
