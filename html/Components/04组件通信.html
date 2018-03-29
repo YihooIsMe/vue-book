@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{total}}</p>
+        <my-component v-model="total"></my-component>
+        <button @click="handleReduce">-1</button>
+    </div>
+<div id="app2">
+    {{messagea}}
+    <component-a></component-a>
+</div>
+</body>
+</html>
+<script>
+Vue.component("my-component",{
+    props:['value'],
+    template:"<input :value='value' @input='handleUpdate'>",
+    methods:{
+        handleUpdate:function (event) {
+            this.$emit("input",event.target.value);
+        }
+    }
+});
+
+var app=new Vue({
+    el:"#app",
+    data:{
+        total:0
+    },
+    methods:{
+        handleReduce:function () {
+            this.total--;
+        }
+    }
+});
+
+var bus=new Vue();
+Vue.component("component-a",{
+    template:"<button @click='handleEvent'>传递事件</button>",
+    methods: {
+        handleEvent: function () {
+            bus.$emit("on-messagea", "来自component-a的内容");
+        }
+    }
+});
+var app2=new Vue({
+    el:"#app2",
+    data:{
+        messagea:""
+    },
+    mounted:function () {
+        var _this=this;
+        bus.$on("on-messagea",function (msg) {
+            _this.messagea=msg;
+        })
+    }
+})
+</script>
