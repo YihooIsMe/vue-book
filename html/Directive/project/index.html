@@ -11,7 +11,7 @@
         <table>
             <thead>
             <tr>
-                <th><input type="checkbox" id="allSelect" v-model="checkModel" @click="checkAll"><label for="allSelect">是否全选{{checkModel}}</label></th>
+                <th><input type="checkbox" id="allSelect" v-model="checkAll"><label for="allSelect">是否全选</label></th>
                 <th></th>
                 <th>商品列表</th>
                 <th>商品单价</th>
@@ -21,22 +21,22 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index) in list">
-                    <td><input type="checkbox" v-model="forChecks" :value="item.id" @click="changSelect(index)">{{forChecks}}</td>
+                    <td><input type="checkbox" v-model="forChecks" :value="item.id" @click="changSelect(item)"></td>
                     <td>{{index+1}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.price}}</td>
                     <td>
-                        <button @click="handleReduce(index)" :disabled="item.count===1">-</button>
+                        <button @click="handleReduce(item,index)" :disabled="item.count===1">-</button>
                         {{item.count}}
-                        <button @click="handleAdd(index)">+</button>
+                        <button @click="handleAdd(item,index)">+</button>
                     </td>
                     <td>
-                        <button @click="handleRemove(index)">移除</button>
+                        <button @click="handleRemove(item,index)">移除</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div>总价：¥{{totalPrice}}</div>
+        <div>总价：¥{{totalMoney}}</div>
     </template>
     <div v-else>购物车为空</div>
 </div>

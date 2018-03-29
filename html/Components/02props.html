@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-component message="来自父组件的数据"></my-component>
+    <one-component warn-text="请慎重选择"></one-component>
+    <input type="text" v-model="parentMessage">
+    <two-component :message="parentMessage"></two-component>
+    <three-component message="[1,2,3]"></three-component>
+    <three-component :message="[1,2,3]"></three-component>
+    <four-component :init-count="1"></four-component>
+</div>
+<div id="app2">
+    <five-component :width="100"></five-component>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("my-component",{
+        props:['message'],
+        template:"<div>{{message}}</div>"
+    });
+
+    Vue.component("one-component",{
+        props:['warnText'],
+        template:"<div>{{warnText}}</div>"
+    });
+
+    Vue.component("two-component",{
+        props:['message'],
+        template:"<div>{{message}}</div>"
+    });
+
+    Vue.component("three-component",{
+        props:['message'],
+        template:"<div>{{message.length}}</div>"
+    });
+
+    Vue.component("four-component",{
+       props:['initCount'],
+       template:"<div>{{count}}</div>",
+       data:function () {
+           return {
+               count:this.initCount
+           }
+       }
+    });
+
+    Vue.component("five-component",{
+        props:['width'],
+        template:"<div :style='style'>组件内容</div>",
+        computed:{
+            style:function () {
+                return {
+                    width:this.width+"px"
+                }
+            }
+        }
+    });
+    var app1=new Vue({
+        el:"#app",
+        data:{
+            parentMessage:""
+        }
+    });
+
+    var app2=new Vue({
+        el:"#app2"
+    })
+</script>

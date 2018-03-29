@@ -9,6 +9,19 @@
 <div id="app">
 <my-component></my-component>
 </div>
+<div id="app2">
+    <table>
+        <tbody is="my-component">
+
+        </tbody>
+    </table>
+    <other-component></other-component>
+</div>
+<div id="app3">
+    <third-component></third-component>
+    <third-component></third-component>
+    <third-component></third-component>
+</div>
 </body>
 </html>
 <script>
@@ -16,7 +29,35 @@
         template:"<div>这是组件里面的内容</div>"
     });
 
+    Vue.component('other-component',{
+        template:"<div>{{message}}</div>",
+        data:function () {
+            return {
+                message:"hello world!"
+            }
+        }
+    });
+
+    var data={
+        counter:0
+    };
+    Vue.component("third-component",{
+        template:"<button @click='counter++'>{{counter}}</button>",
+        data(){
+            return {
+                counter:0
+            }
+        }
+    })
     var app1=new Vue({
         el:"#app"
+    });
+
+    var app2=new Vue({
+        el:"#app2"
+    });
+
+    var app3=new Vue({
+        el:"#app3"
     })
 </script>

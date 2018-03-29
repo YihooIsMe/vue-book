@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 选中商品计算价格</title>
+    <style>
+        tr td{
+            width:200px;
+            background: #eee;
+            padding:10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <td><input type="checkbox" v-model="otherItem">全选({{checkedCount}})</td>
+                <td>产品名称</td>
+                <td>价格</td>
+                <td>数量</td>
+            </tr>
+            <tr v-for="(item,index) in lists">
+                <td>
+                    <span v-show="checkedCount===lists.length || item.checked===true">我被选中</span>
+                    <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,index)">
+                </td>
+                <td>{{item.productName}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.count}}</td>
+            </tr>
+            <tr>
+                总价：{{totalMoney}}
+            </tr>
+        </table>
+    </div>
+<script src="../../../js/vue.js"></script>
+</body>
+</html>
+<script>
+    var a={a:1};
+    console.log(typeof a.b);
+    console.log(typeof undefined==='undefined');
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            checked:[],
+            totalPrice:[],
+            lists : [
+                {
+                    productName:'产品1',
+                    price:'24',
+                    count:'3',
+                    id:1
+                },
+                {
+                    productName:'产品2',
+                    price:'25',
+                    count:'6',
+                    id:2
+                },
+                {
+                    productName:'产品3',
+                    price:'54',
+                    count:'7',
+                    id:3
+                }
+            ]
+        },
+        computed:{
+            totalMoney:function(item,index){
+                let sum = 0;
+                for(let i=0;i<this.totalPrice.length;i++){
+                    sum += this.totalPrice[i];
+                }
+                return sum;
+            },
+            checkAll: {
+                get: function() {
+                    return this.checkedCount == this.lists.length;
+                },
+                set: function(value){
+                    var _this = this;
+                    if (value) {
+                        this.totalPrice = [];
+                        this.checked = this.lists.map(function(item) {
+                            item.checked = true;
+                            let total = item.price*item.count;
+                            _this.totalPrice.push(total);
+                            return item.id
+                        })
+                    }else{
+                        this.checked = [];
+                        this.totalPrice=[];
+                        this.lists.forEach(function(item,index){
+                            item.checked = false;
+                        });
+                    }
+                }
+            },
+            checkedCount: {
+                get: function() {
+                    return this.checked.length;
+                }
+            }
+        },
+        methods:{
+            currClick:function(item,index){
+                var _this = this;
+                console.log(item.checked);
+                if(typeof item.checked == 'undefined'){
+                    //此时就相当于是选中了该选项
+                    this.$set(item,'checked',true);
+                    let total = item.price*item.count;
+                    this.totalPrice.push(total);
+                    console.log(this.totalPrice);
+                }else{
+                    //取消了当前勾选的这一项
+                    console.log(item.checked);
+                    item.checked = !item.checked;
+                    if(item.checked){
+                        this.totalPrice = [];
+                        this.lists.forEach(function(otherItem,index){
+                            if(otherItem.checked){
+                                let total = otherItem.price*otherItem.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }else{
+                        this.totalPrice = [];
+                        this.lists.forEach(function(otherItem,index){
+                            if(otherItem.checked){
+                                let total = otherItem.price*otherItem.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    })
+</script>
