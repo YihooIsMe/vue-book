@@ -22,6 +22,16 @@
     <third-component></third-component>
     <third-component></third-component>
 </div>
+
+<div id="app4">
+    {{message}}
+    <component-a></component-a>
+</div>
+
+<div id="app5">
+    <button @click="handleRef">通过ref获取子组件实例</button>
+    <component-b ref="comB"></component-b>
+</div>
 </body>
 </html>
 <script>
@@ -59,5 +69,37 @@
 
     var app3=new Vue({
         el:"#app3"
+    });
+
+    Vue.component("component-a",{
+        template:"<button @click='handleEvent'>传递来自子组件的数据</button>",
+        methods:{
+            handleEvent:function () {
+                this.$parent.message="我是来自子组件的数据"
+            }
+        }
+    });
+    var app4=new Vue({
+        el:"#app4",
+        data:{
+            message:""
+        }
+    });
+
+    Vue.component("component-b",{
+        template:"<div>子组件</div>",
+        data:function () {
+            return {
+                message:"子组件的内容"
+            }
+        }
+    });
+    var app5=new Vue({
+        el:"#app5",
+        methods:{
+            handleRef:function () {
+                console.log(this.$refs.comB.message);
+            }
+        }
     })
 </script>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app1">
+    <child-component>
+        <p>分发的内容</p>
+        <p>更多分发的内容</p>
+    </child-component>
+</div>
+<div id="app2">
+    <component-a>
+        <h2 slot="header">标题</h2>
+        <p>正文内容</p>
+        <p>更多的正文内容</p>
+        <div slot="footer">底部信息</div>
+    </component-a>
+</div>
+<div id="app3">
+    <component-b>
+        <template scope="props">
+            <p>来组父组件的内容</p>
+            <p>{{props.msg}}</p>
+        </template>
+    </component-b>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("child-component",{
+        template:"<div><slot><p>如果父组件没有插入内容，我将作为默认出现</p></slot></div>"
+    });
+
+    var app1=new Vue({
+        el:"#app1"
+    });
+
+    Vue.component("component-a",{
+        template:'<div class="container">\n' +
+        '        <div class="header">\n' +
+        '            <slot name="header"></slot>\n' +
+        '        </div>\n' +
+        '        <div class="main">\n' +
+        '            <slot></slot>\n' +
+        '        </div>\n' +
+        '        <div class="footer">\n' +
+        '            <slot name="footer"></slot>\n' +
+        '        </div>\n' +
+        '    </div>'
+    });
+    var app2=new Vue({
+        el:"#app2"
+    });
+
+    Vue.component("component-b",{
+        template:'<div class="container">\n' +
+        '        <slot msg="来自子组件的内容"></slot>\n' +
+        '    </div>'
+    });
+
+    var app3=new Vue({
+        el:"#app3"
+    })
+</script>
