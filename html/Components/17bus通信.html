@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>{{message}}</div>
+    <component-a></component-a>
+</div>
+<div id="app2">
+    <div>{{message}}</div>
+    <component-b @msg-change="handleChange"></component-b>
+</div>
+
+<div id="app3">
+    <div>{{message}}</div>
+    <component-c v-model="message"></component-c>
+</div>
+</body>
+</html>
+<script>
+    var bus=new Vue();
+    Vue.component("component-a",{
+        template:"<button @click='handleEvent'>传递事件</button>",
+        methods:{
+            handleEvent:function () {
+                bus.$emit('on-msg','来自component-a的内容')
+            }
+        }
+    });
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            message:""
+        },
+        mounted:function (msg) {
+            var _this=this;
+            bus.$on('on-msg',function (msg) {
+                _this.message=msg;
+            })
+        }
+    });
+
+
+    Vue.component("component-b",{
+        template:"<button @click='handleEvent'>传递事件</button>",
+        data:function () {
+            return {
+                comMsg:"来自component-b的内容"
+            }
+        },
+        methods:{
+            handleEvent:function () {
+                this.$emit('msg-change',this.comMsg);
+            }
+        }
+    });
+
+    var app2=new Vue({
+        el:"#app2",
+        data:{
+            message:""
+        },
+        methods:{
+            handleChange:function (val) {
+                this.message=val;
+            }
+        }
+    });
+
+    Vue.component("component-c",{
+        template:"<button @click='handleEvent'>传递事件</button>",
+        data:function () {
+            return {
+                msg:"来自component-c的数据"
+            }
+        },
+        methods:{
+            handleEvent:function () {
+                this.$emit('input',this.msg)
+            }
+        }
+    });
+
+    var app3=new Vue({
+        el:"#app3",
+        data:{
+            message:""
+        }
+    })
+</script>

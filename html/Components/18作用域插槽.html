@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <child-component>
+        <template slot-scope="props">
+            <p>来组父组件的内容</p>
+            <p>{{props.msg}}</p>
+        </template>
+    </child-component>
+</div>
+
+<div id="app2">
+    <my-list :books="books">
+        <template slot="book" slot-scope="props">
+            <li>{{props.bookCame}}</li>
+        </template>
+    </my-list>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("child-component",{
+        template:"<div class=\"container\">\n" +
+        "        <slot msg=\"来自子组件的内容\"></slot>\n" +
+        "    </div>",
+
+    });
+
+    var app=new Vue({
+        el:"#app"
+    });
+
+    Vue.component("my-list",{
+        props:{
+          books:{
+              type:Array,
+              default:function () {
+                  return [];
+              }
+          }
+        },
+        template:'<ul>\n' +
+        '        <slot name="book" v-for="book in books" :book-came="book.name"></slot>\n' +
+        '    </ul>',
+    });
+    var app2=new Vue({
+        el:"#app2",
+        data:{
+            books:[
+                {name:'Vue.js实战'},
+                {name:'js语言精粹'},
+                {name:'js高级程序设计'}
+            ]
+        }
+    })
+</script>

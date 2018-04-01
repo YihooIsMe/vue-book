@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div id="id" v-if="showData">这是一段文本</div>
+    <button @click="getText">获取文本</button>
+</div>
+</body>
+</html>
+<script>
+var app=new Vue({
+    el:"#app",
+    data:{
+        showData:false
+    },
+    methods:{
+        getText:function () {
+            this.showData=true;
+            this.$nextTick(function () {
+                var text=document.getElementById("id").innerText;
+                console.log(text);
+            })
+
+        }
+    }
+})
+</script>

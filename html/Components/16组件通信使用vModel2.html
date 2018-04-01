@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件 component</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>总价为:{{total}}</div>
+    <my-component v-model="total"></my-component>
+    <button @click="handleIncrease">+1</button>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("my-component",{
+        props:['value'],
+        template:"<input type='text' @input='updateDate' :value='value'>",
+        methods:{
+            updateDate:function (e) {
+                this.$emit('input',e.target.value);
+            }
+        }
+    });
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            total:0
+        },
+        methods:{
+            handleIncrease:function () {
+                this.total++;
+            }
+        }
+    })
+</script>

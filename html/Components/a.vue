@@ -1,7 +1,9 @@
 <template>
-    <ul>
-        <slot name="book" v-for="book in books" :book-name="book.name"></slot>
-    </ul>
+    <div class="input-number">
+        <input type="text" :value="currentValue" @change="handleChange">
+        <button @click="handleDown" :disabled="currentValue<=min">-</button>
+        <button @click="handleUp" :disabled="currentValue>=max">+</button>
+    </div>
 </template>
 
 <script>
