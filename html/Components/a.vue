@@ -1,8 +1,11 @@
 <template>
-    <div class="input-number">
-        <input type="text" :value="currentValue" @change="handleChange">
-        <button @click="handleDown" :disabled="currentValue<=min">-</button>
-        <button @click="handleUp" :disabled="currentValue>=max">+</button>
+    <div class="tabs">
+        <div class="tabs-bar">
+            <div :class="tabCls(item)" v-for="(item,index) in navList" @click="handleChange(index)"></div>
+            <div class="tabs-content">
+                <slot></slot>
+            </div>
+        </div>
     </div>
 </template>
 
