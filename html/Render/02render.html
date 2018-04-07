@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>render函数的用法</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ele :list="list"></ele>
+</div>
+
+<div id="app2">
+    <other-ele :list="list"></other-ele>
+    <button @click="handleClick">显示列表</button>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("ele",{
+        props:{
+            list:{
+                type:Array
+            }
+        },
+        render:function (createElement) {
+            var VNodes=[];
+            console.log(this.list);
+            for (var i=0;i<this.list.length;i++){
+                VNodes.push(createElement('p',this.list[i]));
+                console.log(VNodes);
+            }
+            return createElement('p',VNodes)
+        }
+    });
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            list:[
+                'Vue.js实战',
+                'JavaScript设计模式',
+                'JavaScript高级程序设计'
+            ]
+        }
+    });
+
+    Vue.component("other-ele",{
+        props:{
+            list:{
+                type:Array,
+                default:function () {
+                    return [];
+                }
+            }
+        },
+        render:function (createElement) {
+            if(this.list.length){
+                return createElement("ul",this.list.map(function (item) {
+                    return createElement("li",item);
+                }))
+            }else {
+                return createElement("p","列表数据为空")
+            }
+        }
+    });
+
+    var app2=new Vue({
+        el:"#app2",
+        data:{
+            list:[]
+        },
+        methods:{
+            handleClick:function () {
+                this.list=[
+                    'Vue.js实战',
+                    'JavaScript设计模式',
+                    'JavaScript高级程序设计'
+                ]
+            }
+        }
+    })
+</script>

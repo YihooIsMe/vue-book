@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>render函数的用法</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ele></ele>
+</div>
+<div id="app2">
+    <ele1></ele1>
+    <ele1>
+        <slot>这里是slot的相关内容！</slot>
+    </ele1>
+</div>
+</body>
+</html>
+<script>
+    Vue.component("ele",{
+        render:function (createElement) {
+            var _this=this;
+            console.log(this.list);
+            if(this.list.length){
+                var listNode=createElement('ul',this.list.map(function (item) {
+                    return createElement("li",item);
+                }));
+            }else {
+                var listNode=createElement('p','暂无聊天内容');
+            }
+
+            return createElement('div',[
+                listNode,
+                createElement('input',{
+                    attrs:{
+                        placeholder:"输入内容，按回车键发送！"
+                    },
+                    style:{
+                        width:'200px'
+                    },
+                    on:{
+                        keyup:function (event) {
+                            if(event.keyCode!==13){return;}
+                            if(event.target.value!==""){
+                                _this.list.push(event.target.value);
+                                console.log(event.target.value);
+                                event.target.vuale='';
+                                console.log(event.target.value);
+                            }
+                        }
+                    }
+                })
+            ])
+        },
+        data:function () {
+            return {
+                list:[]
+            }
+        }
+    });
+    var app=new Vue({
+        el:"#app"
+    });
+
+
+    Vue.component("ele1",{
+        render:function (createElement) {
+            if(this.$slots.default===undefined){
+                return createElement('div',"我是div的相关内容")
+            }else {
+                return createElement('div',this.$slots.default)
+            }
+        }
+    });
+    var app2=new Vue({
+        el:"#app2"
+    })
+</script>
